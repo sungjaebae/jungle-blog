@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    // 👇️ directories and files to lint
+    // add all files in which you see
+    // the "parserOptions.project" error
+    ".eslintrc.js"
+  ],
+  "exclude": [".tailwind.config.js"]
+}

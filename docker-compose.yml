@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  npm:
+    container_name: npm
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./nginx-proxy-manager/data:/data
+      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mysql:
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=&axh3Mr.7U{|1KqW75
+      - MYSQL_DATABASE=blog-app
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=&axh3Mr.7U{|1KqW75
+    image: "mysql:8.0"
+    volumes:
+      - "./mysql/var-lib-mysql:/var/lib/mysql"
+      - "./mysql/my.cnf:/etc/mysql/my.cnf"
+    command: >
+      bash -c "
+      chmod 644 /etc/mysql/my.cnf
+      && /entrypoint.sh mysqld
+      "
+    ports:
+      - "3306:3306"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    
+  tmp:
+    container_name: tmp
+    image: 'busybox:latest'
+    stdin_open: true 
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      
+  # nextjs:
+  #   container_name: nextjs
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   build:
+  #     context: blog-app
+  #     dockerfile: Dockerfile
+  #     args:
+  #       ENV_VARIABLE: ${ENV_VARIABLE} #이부분을 수정해서 사용하면 된다 도커파일도 수정해야함
+  #       NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE} #이부분을 수정해서 사용하면 된다 수정해야함
+  #   depends_on:
+  #     - mysql
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+
+networks:
+  default:
+    name: npm
+    external: true
+
+# 밖에서 nginx-proxy-manager를 생성해야 함 docker network create nginx-proxy-manager
