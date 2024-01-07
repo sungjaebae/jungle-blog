@@ -14,7 +14,7 @@
     "pull-db": "drizzle-kit introspect:mysql && echo [Linting /database] && npx next lint --fix --dir database",
     "push-db": "drizzle-kit push:mysql",
     "studio-db": "drizzle-kit studio",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install"
   },
   "dependencies": {
     "drizzle-orm": "^0.29.1",

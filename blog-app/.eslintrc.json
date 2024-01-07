@@ -1,24 +1,21 @@
-module.exports = {
-  extends: [
+{
+  "extends": [
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
     "prettier",
     "next/core-web-vitals",
-    "next",
+    "next"
   ],
-  parserOptions: {
-    project: "./tsconfig.json",
-    sourceType: "module",
-    tsconfigRootDir: _dirname + "/blog-app",
-    createDefaultProgram: true,
-    parser: "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "parser": "@typescript-eslint/parser"
   },
-  rules: {
+  "rules": {
     "import/no-extraneous-dependencies": ["off"],
     "import/prefer-default-export": ["off"],
     "react/require-default-props": ["off"],
-    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn"
     // Preferences for quick projects
     /* "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
@@ -37,5 +34,5 @@ module.exports = {
       2,
       { "namedComponents": ["arrow-function", "function-declaration"] }
     ] */
-  },
-};
+  }
+}

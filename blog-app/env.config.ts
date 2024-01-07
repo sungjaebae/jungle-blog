@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 
 dotenv.config({
-  path: "./.env.local",
+  path: ".env.local",
+  debug: true,
 });
 
 function required(key: string, defaultValue?: string): string {
