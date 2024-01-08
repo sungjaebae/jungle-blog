@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { lekton, lektonBold } from "./font/fonts";
 import { NextThemeProvider } from "./providers/themeProvider";
+import ReactQueryProvider from "./providers/react-query-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,12 +16,14 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
-      className={`${lekton.variable} ${lektonBold.variable}`}
+      lang="kr"
+      className={`${lekton.variable} ${lektonBold.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="font-regular">
-        <NextThemeProvider>{children}</NextThemeProvider>
+        <NextThemeProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </NextThemeProvider>
       </body>
     </html>
   );

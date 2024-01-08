@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import useSWR, { Fetcher } from "swr";
+import { useQuery } from "@tanstack/react-query";
 import Clock from "@/components/clock";
 import LocalToggle from "@/components/localeToggle";
 import ThemeToggle from "@/components/themeToggle";
 import { useTheme } from "next-themes";
 import { Blob, Next, Vercel } from "@/components/svg";
-import { useI18n } from "../locales/client";
-import { ExempleGetResponse } from "../api/exemple/route";
+import { useI18n } from "@/app/locales/client";
+import { getExemple } from "@/server/actions";
 
 const usefulLinks = [
   {
@@ -34,9 +34,17 @@ const usefulLinks = [
 export default function Page() {
   const t = useI18n();
   const { theme } = useTheme();
-  const fetcher: Fetcher<ExempleGetResponse, string> = (url: string) =>
-    fetch(url).then((res) => res.json());
-  const { data, isLoading } = useSWR(`/api/exemple`, fetcher);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["example"],
+    queryFn: () => getExemple,
+  });
+
+  console.log(data);
+
+  //   const fetcher: Fetcher<ExempleGetResponse, string> = (url: string) =>
+  //   fetch(url).then((res) => res.json());
+  // const { data, isLoading } = useSWR(`/api/exemple`, fetcher);
 
   const displayPangram = () => (
     <>

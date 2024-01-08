@@ -8,6 +8,9 @@ import {
   index,
   foreignKey,
   tinytext,
+  unique,
+  serial,
+  text,
 } from "drizzle-orm/mysql-core";
 import { sql } from "drizzle-orm";
 
@@ -16,12 +19,14 @@ export const exampleLang = mysqlTable(
   {
     kLang: varchar("k_lang", { length: 5 }).notNull(),
   },
-  (table) => ({
-    exampleLangKLangPk: primaryKey({
-      columns: [table.kLang],
-      name: "example_lang_k_lang_pk",
-    }),
-  }),
+  (table) => {
+    return {
+      exampleLangKLang: primaryKey({
+        columns: [table.kLang],
+        name: "example_lang_k_lang",
+      }),
+    };
+  },
 );
 
 export const examplePost = mysqlTable(
@@ -29,12 +34,14 @@ export const examplePost = mysqlTable(
   {
     kExample: int("k_example").notNull(),
   },
-  (table) => ({
-    examplePostKExamplePk: primaryKey({
-      columns: [table.kExample],
-      name: "example_post_k_example_pk",
-    }),
-  }),
+  (table) => {
+    return {
+      examplePostKExample: primaryKey({
+        columns: [table.kExample],
+        name: "example_post_k_example",
+      }),
+    };
+  },
 );
 
 export const exampleText = mysqlTable(
@@ -50,12 +57,29 @@ export const exampleText = mysqlTable(
       { onDelete: "cascade", onUpdate: "cascade" },
     ),
   },
-  (table) => ({
-    exampleIdIdx: index("example_id_idx").on(table.fkPost),
-    langIdIdx: index("lang_id_idx").on(table.fkLang),
-    exampleTextKTextPk: primaryKey({
-      columns: [table.kText],
-      name: "example_text_k_text_pk",
-    }),
-  }),
+  (table) => {
+    return {
+      exampleIdIdx: index("example_id_idx").on(table.fkPost),
+      langIdIdx: index("lang_id_idx").on(table.fkLang),
+      exampleTextKText: primaryKey({
+        columns: [table.kText],
+        name: "example_text_k_text",
+      }),
+    };
+  },
+);
+
+export const users = mysqlTable(
+  "users",
+  {
+    id: serial("id").notNull(),
+    fullName: text("full_name"),
+    phone: varchar("phone", { length: 256 }),
+  },
+  (table) => {
+    return {
+      usersId: primaryKey({ columns: [table.id], name: "users_id" }),
+      id: unique("id").on(table.id),
+    };
+  },
 );

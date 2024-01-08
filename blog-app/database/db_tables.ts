@@ -1,60 +1,14 @@
 // ? == Drizzle schemas ==
 // ?  https://orm.drizzle.team/docs/schemas
 
-import {
-  mysqlTable,
-  primaryKey,
-  varchar,
-  int,
-  index,
-  tinytext,
-} from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, serial, text } from "drizzle-orm/mysql-core";
 
-export const exampleLang = mysqlTable(
-  "example_lang",
-  {
-    kLang: varchar("k_lang", { length: 5 }).notNull(),
-  },
-  (table) => ({
-    exampleLangKLangPk: primaryKey({
-      columns: [table.kLang],
-      name: "example_lang_k_lang_pk",
-    }),
-  }),
-);
+// 테스트 용도
+export const users = mysqlTable("users", {
+  id: serial("id").primaryKey(),
+  fullName: text("full_name"),
+  phone: varchar("phone", { length: 256 }),
+});
 
-export const examplePost = mysqlTable(
-  "example_post",
-  {
-    kExample: int("k_example").notNull(),
-  },
-  (table) => ({
-    examplePostKExamplePk: primaryKey({
-      columns: [table.kExample],
-      name: "example_post_k_example_pk",
-    }),
-  }),
-);
-
-export const exampleText = mysqlTable(
-  "example_text",
-  {
-    kText: int("k_text").notNull(),
-    fkPost: int("fk_post")
-      .notNull()
-      .references(() => examplePost.kExample),
-    exampleTextcol: tinytext("example_textcol"),
-    fkLang: varchar("fk_lang", { length: 5 }).references(
-      () => exampleLang.kLang,
-      { onDelete: "cascade", onUpdate: "cascade" },
-    ),
-  },
-  (table) => ({
-    exampleIdIdx: index("example_id_idx").on(table.fkPost),
-    langIdIdx: index("lang_id_idx").on(table.fkLang),
-    exampleTextKTextPk: primaryKey({
-      columns: [table.kText],
-      name: "example_text_k_text_pk",
-    }),
-  }),
-);
+export type User = typeof users.$inferSelect; // return type when queried
+export type NewUser = typeof users.$inferInsert; // insert type

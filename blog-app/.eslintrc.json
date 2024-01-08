@@ -1,5 +1,6 @@
 {
   "extends": [
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
@@ -15,7 +16,10 @@
     "import/no-extraneous-dependencies": ["off"],
     "import/prefer-default-export": ["off"],
     "react/require-default-props": ["off"],
-    "@typescript-eslint/no-unused-vars": "warn"
+    "@typescript-eslint/no-unused-vars": "warn",
+    // my rule
+    "arrow-body-style": "off",
+    "react/no-unused-prop-types": "off"
     // Preferences for quick projects
     /* "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
